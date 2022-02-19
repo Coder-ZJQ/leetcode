@@ -5,19 +5,16 @@ class Solution {
             arr = arr,
             res = [Int]()
         while n > 0 {
-            for i in 0..<n {
-                if arr[i] == n && i + 1 != n {
-                    // 先移到最前面
-                    if i > 0 {
-                        reverse(&arr, i + 1)
-                        res.append(i + 1)
-                    }
-                    // 再移到最后面
-                    if n > 1 {
-                        reverse(&arr, n)
-                        res.append(n)
-                    }
-                    break
+            if let i = arr.firstIndex(of: n), i + 1 != n {
+                // 先移到最前面
+                if i > 0 {
+                    reverse(&arr, i + 1)
+                    res.append(i + 1)
+                }
+                // 再移到最后面
+                if n > 1 {
+                    reverse(&arr, n)
+                    res.append(n)
                 }
             }
             n -= 1
