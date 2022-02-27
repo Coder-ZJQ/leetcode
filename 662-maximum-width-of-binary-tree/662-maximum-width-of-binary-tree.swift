@@ -20,21 +20,17 @@ class Solution {
         var array = [node]
         var width = 1
         while !array.isEmpty {
-            width = max(width, array.last!.val - array.first!.val + 1)
+            let start = array.first!.val
+            width = max(width, array.last!.val - start + 1)
             for _ in 0..<array.count {
                 let node = array.removeFirst()
                 if let left = node.left {
-                    left.val = node.val * 2
+                    left.val = node.val * 2 - start
                     array.append(left)
                 }
                 if let right = node.right {
-                    right.val = node.val * 2 + 1
+                    right.val = node.val * 2 + 1 - start
                     array.append(right)
-                }
-            }
-            if let val = array.first?.val {
-                array.forEach {
-                    $0.val -= val
                 }
             }
         }
