@@ -5,7 +5,9 @@ class Solution {
         var first = nums[0],
             second = max(nums[0], nums[1])
         for i in 2..<count {
-            (first, second) = (second, max(second, nums[i] + first))
+            let temp = first
+            first = second
+            second = max(second, nums[i] + temp)
         }
         return second
     }
