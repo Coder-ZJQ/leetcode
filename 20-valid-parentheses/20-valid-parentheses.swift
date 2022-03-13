@@ -1,14 +1,15 @@
 class Solution {
     func isValid(_ s: String) -> Bool {
+        guard s.count % 2 == 0 else { return false }
         var stack = [Character]()
-        let pair: [Character: Character] = ["{": "}", "[": "]", "(": ")"]
-        for c in s {
-            switch c {
-            case "{", "[", "(":
-                stack.append(c)
-            case "}", "]", ")":
+        let dict: [Character: Character] = ["}": "{", ")": "(", "]": "["]
+        for char in s {
+            switch char {
+            case "(", "{", "[":
+                stack.append(char)
+            case ")", "}", "]":
                 if let last = stack.last {
-                    if let p = pair[last], p == c {
+                    if last == dict[char] {
                         stack.removeLast()
                     } else {
                         return false
@@ -17,7 +18,7 @@ class Solution {
                     return false
                 }
             default:
-                continue
+                return false
             }
         }
         return stack.count == 0
