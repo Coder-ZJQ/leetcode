@@ -1,23 +1,22 @@
 class Solution {
     func minRemoveToMakeValid(_ s: String) -> String {
+        var chars = [Character](s)
         var stack = [Int]()
-        var removes = [Int]()
-        for (i, c) in s.enumerated() {
-            if c == "(" {
+        for i in (0..<chars.count).reversed() {
+            let char = chars[i]
+            if char == ")" {
                 stack.append(i)
-            } else if c == ")" {
+            } else if char == "(" {
                 if stack.isEmpty {
-                    removes.append(i)
+                    chars.remove(at: i)
                 } else {
                     stack.removeLast()
                 }
             }
         }
-        removes += stack
-        var char = [Character](s)
-        for r in removes.reversed() {
-            char.remove(at: r)
+        for r in stack {
+            chars.remove(at: r)
         }
-        return String(char)
+        return String(chars)
     }
 }
