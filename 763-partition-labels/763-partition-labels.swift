@@ -1,14 +1,14 @@
 class Solution {
     func partitionLabels(_ s: String) -> [Int] {
-        var indexes = [Character: [Int]]()
+        var indexes = [Character: Int]()
         for (i, c) in s.enumerated() {
-            indexes[c] = indexes[c,default: []] + [i]
+            indexes[c] = i
         }
         var res = [Int](),
         left = 0,
         right = 0
         for (i, c) in s.enumerated() {
-            right = max(right, indexes[c]!.last!)
+            right = max(right, indexes[c]!)
             if i == right {
                 res.append(right - left + 1)
                 left = i + 1
