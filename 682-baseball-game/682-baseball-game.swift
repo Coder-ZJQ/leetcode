@@ -1,18 +1,23 @@
 class Solution {
     func calPoints(_ ops: [String]) -> Int {
-        var stack = [Int]()
+        var points = [Int](),
+        res = 0
         for op in ops {
+            var point = 0
             if op == "C" {
-                stack.removeLast()
+                res -= points.removeLast()
+                continue
             } else if op == "D" {
-                stack.append(stack.last! * 2)
+                point = points.last! * 2
             } else if op == "+" {
-                let n = stack.count
-                stack.append(stack[n - 1] + stack[n - 2])
+                let n = points.count
+                point = points[n - 1] + points[n - 2]
             } else {
-                stack.append(Int(op) ?? 0)
+                point = Int(op)!
             }
+            res += point
+            points.append(point)
         }
-        return stack.reduce(0, +)
+        return res
     }
 }
