@@ -1,20 +1,15 @@
 class Solution {
     func findDuplicate(_ nums: [Int]) -> Int {
-        var left = 1, right = nums.count - 1
-        while left < right {
-            let mid = left + (right - left) / 2
-            var count = 0
-            for num in nums {
-                if num <= mid {
-                    count += 1
-                }
-            }
-            if count <= mid {
-                left = mid + 1
-            } else {
-                right = mid
-            }
+        var slow = nums[0], fast = nums[slow]
+        while slow != fast {
+            slow = nums[slow]
+            fast = nums[nums[fast]]
         }
-        return left
+        fast = 0
+        while slow != fast {
+            slow = nums[slow]
+            fast = nums[fast]
+        }
+        return slow
     }
 }
