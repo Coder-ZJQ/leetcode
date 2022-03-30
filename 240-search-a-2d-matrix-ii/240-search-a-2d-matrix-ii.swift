@@ -23,10 +23,18 @@ class Solution {
         }
         let row = left
         for i in (0...row).reversed() {
-            for j in (0...col).reversed() {
-                if matrix[i][j] == target {
-                    return true
+            left = 0
+            right = col
+            while left < right {
+                let mid = left + (right - left) >> 1
+                if matrix[i][mid] < target {
+                    left = mid + 1
+                } else {
+                    right = mid
                 }
+            }
+            if matrix[i][left] == target {
+                return true
             }
         }
         return false
