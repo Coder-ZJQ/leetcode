@@ -40,10 +40,6 @@ class NumArray {
         bit = BIT(nums)
     }
     
-    func update(_ index: Int, _ val: Int) {
-        bit.update(index, val)
-    }
-    
     func sumRange(_ left: Int, _ right: Int) -> Int {
         bit.sum(right) - bit.sum(left - 1)
     }
