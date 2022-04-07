@@ -27,6 +27,8 @@ class LRUCache {
         self.capacity = capacity
     }
     
+    /// 移除当前节点并使其前后节点相连接
+    /// - Parameter node: 节点
     private func remove(_ node: LinkedNode) {
         let nxt = node.nxt,
             pre = node.pre
@@ -34,37 +36,45 @@ class LRUCache {
         pre?.nxt = nxt
     }
     
+    /// 添加节点至尾部
+    /// - Parameter node: 节点
     private func add(_ node: LinkedNode) {
         let pre = tail.pre,
             tail = self.tail
-        
         pre?.nxt = node
         node.pre = pre
         node.nxt = tail
         tail.pre = node
     }
     
+    /// 将双向链表中的节点移动到尾部
+    /// - Parameter node: 节点
+    private func moveToTail(_ node: LinkedNode) {
+        // 先移除再追加，使其在尾部
+        remove(node)
+        add(node)
+    }
+    
     func get(_ key: Int) -> Int {
         if let node = dict[key] {
-            // 移除当前节点并链接
-            remove(node)
-            // 将当前节点移动至尾部
-            add(node)
+            moveToTail(node)
             return node.val
         }
         return -1
     }
     
     func put(_ key: Int, _ value: Int) {
+        // 如果存在则更新节点值并将其移至尾部
         if let node = dict[key] {
             node.val = value
-            remove(node)
-            add(node)
+            moveToTail(node)
             return
         }
+        // 如果不存在则添加节点至尾部
         let node = LinkedNode(key, value)
         add(node)
         dict[key] = node
+        // 添加后如果超过容量则移除头部最久没访问的节点
         if dict.count > capacity {
             let n = head.nxt!
             remove(n)
@@ -72,10 +82,3 @@ class LRUCache {
         }
     }
 }
-
-/**
- * Your LRUCache object will be instantiated and called as such:
- * let obj = LRUCache(capacity)
- * let ret_1: Int = obj.get(key)
- * obj.put(key, value)
- */
