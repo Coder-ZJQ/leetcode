@@ -1,22 +1,17 @@
 
 class KthLargest {
-    var heap: [Int]
+    var heap: [Int] = []
     var k: Int
     init(_ k: Int, _ nums: [Int]) {
         self.k = k
-        var nums = nums
-        if nums.count < k {
-            nums += [Int.min]
-        }
-        heap = nums[..<k].sorted(by: >)
-        for num in nums[k...] {
+        for num in nums {
             insert(num)
         }
     }
     
     private func insert(_ num: Int) {
-        guard num > heap.last! else { return }
-        var left = 0, right = k - 1
+        guard heap.count < k || num > heap[k - 1] else { return }
+        var left = 0, right = min(heap.count, k) - 1
         while left <= right {
             let mid = left + (right - left) >> 1
             if heap[mid] > num {
