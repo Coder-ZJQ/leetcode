@@ -1,22 +1,24 @@
 class Solution {
     func calPoints(_ ops: [String]) -> Int {
-        var points = [Int](),
-        res = 0
+        var res = 0, arr = [Int]()
         for op in ops {
-            var point = 0
-            if op == "C" {
-                res -= points.removeLast()
-                continue
+            if op == "+" {
+                let n = arr.count
+                let point = arr[n - 1] + arr[n - 2]
+                arr.append(point)
+                res += point
             } else if op == "D" {
-                point = points.last! * 2
-            } else if op == "+" {
-                let n = points.count
-                point = points[n - 1] + points[n - 2]
+                let n = arr.count
+                let point = arr[n - 1] * 2
+                arr.append(point)
+                res += point
+            } else if op == "C" {
+                res -= arr.removeLast()
             } else {
-                point = Int(op)!
+                let point = Int(op) ?? 0
+                arr.append(point)
+                res += point
             }
-            res += point
-            points.append(point)
         }
         return res
     }
