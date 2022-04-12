@@ -1,14 +1,18 @@
 class Solution {
     func gameOfLife(_ board: inout [[Int]]) {
-        let m = board.count, n = board[0].count,
-        neighbors = [(1, 1), (-1, 1), (1, -1), (-1, -1), (1, 0), (0, 1), (-1, 0), (0, -1)]
+        let m = board.count, n = board[0].count
         for row in 0..<m {
             for col in 0..<n {
                 var live = 0
-                for (x, y) in neighbors {
-                    let nRow = row + x, nCol = col + y
-                    if nRow >= 0 && nRow < m && nCol >= 0 && nCol < n && (board[nRow][nCol] == 1 || board[nRow][nCol] == -1) {
-                        live += 1
+                for i in -1...1 {
+                    for j in -1...1 {
+                        if i == 0 && j == 0 {
+                            continue
+                        }
+                        let nRow = row + i, nCol = col + j
+                        if nRow >= 0 && nRow < m && nCol >= 0 && nCol < n && (board[nRow][nCol] == 1 || board[nRow][nCol] == -1) {
+                            live += 1
+                        }
                     }
                 }
                 if board[row][col] == 0 && live == 3 {
