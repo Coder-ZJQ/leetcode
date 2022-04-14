@@ -1,19 +1,35 @@
 class RandomizedSet {
-    private var set: Set<Int>
+    private var map: [Int: Int]
+    private var arr: [Int]
     init() {
-        set = Set<Int>()
+        map = [:]
+        arr = []
     }
     
     func insert(_ val: Int) -> Bool {
-        set.insert(val).inserted
+        if let _ = map[val] {
+            return false
+        }
+        arr.append(val)
+        map[val] = arr.count - 1
+        return true
     }
     
     func remove(_ val: Int) -> Bool {
-        set.remove(val) != nil
+        guard let index = map.removeValue(forKey: val) else {
+            return false
+        }
+        let lastIndex = arr.count - 1
+        let lastVal = arr.removeLast()
+        if index < lastIndex {
+            arr[index] = lastVal
+            map[lastVal] = index
+        }
+        return true
     }
     
     func getRandom() -> Int {
-        set.randomElement()!
+        arr.randomElement()!
     }
 }
 
