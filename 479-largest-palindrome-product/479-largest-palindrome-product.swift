@@ -1,11 +1,11 @@
 class Solution {
     func largestPalindrome(_ n: Int) -> Int {
+        if n == 1 { return 9 }
         let max = Int(pow(Float(10), Float(n))) - 1,
             min = Int(pow(Float(10), Float(n - 1)))
         
         var cur = max
-        // 9 开头
-        while cur / min == 9 {
+        while true {
             let palindrome = generatePalindrome(cur)
             var num1 = max
             while num1 * num1 >= palindrome {
@@ -16,7 +16,7 @@ class Solution {
             }
             cur -= 1
         }
-        return 9
+        return -1
     }
     
     private func generatePalindrome(_ num: Int) -> Int {
