@@ -3,9 +3,10 @@ class Solution {
         let max = Int(pow(Float(10), Float(n))) - 1,
             min = Int(pow(Float(10), Float(n - 1)))
         
-        for i in (min...max).reversed() where i / min == 9 {
-            let palindrome = generatePalindrome(i)
-            
+        var cur = max
+        // 9 开头
+        while cur / min == 9 {
+            let palindrome = generatePalindrome(cur)
             var num1 = max
             while num1 * num1 >= palindrome {
                 if palindrome % num1 == 0 {
@@ -13,8 +14,8 @@ class Solution {
                 }
                 num1 -= 1
             }
+            cur -= 1
         }
-        
         return 9
     }
     
