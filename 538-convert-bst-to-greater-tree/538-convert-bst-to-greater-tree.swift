@@ -16,20 +16,20 @@
 class Solution {
     
     // right, root, left
-    private func rdlTraverse(_ node: TreeNode) -> [TreeNode] {
-        var array = [node]
+    private func rdlTraverse(_ node: TreeNode, _ array: inout [TreeNode]) {
         if let right = node.right {
-            array = rdlTraverse(right) + array
+            rdlTraverse(right, &array)
         }
+        array.append(node)
         if let left = node.left {
-            array += rdlTraverse(left)
+            rdlTraverse(left, &array)
         }
-        return array
     }
     
     func convertBST(_ root: TreeNode?) -> TreeNode? {
         if let node = root {
-            let array = rdlTraverse(node)
+            var array = [TreeNode]()
+            rdlTraverse(node, &array)
             var sum = 0
             for node in array {
                 sum += node.val
