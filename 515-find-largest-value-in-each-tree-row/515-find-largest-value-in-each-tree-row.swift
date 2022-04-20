@@ -15,22 +15,18 @@
  */
 class Solution {
     private var array: [Int] = []
-    private func levelTraverse(_ node: TreeNode, _ level: Int) {
+    private func levelTraverse(_ node: TreeNode?, _ level: Int) {
+        guard let node = node else { return }
         if array.count == level {
-            array.append(Int.min)
+            array.append(node.val)
+        } else {
+            array[level] = max(array[level], node.val)
         }
-        array[level] = max(array[level], node.val)
-        if let left = node.left {
-            levelTraverse(left, level + 1)
-        }
-        if let right = node.right {
-            levelTraverse(right, level + 1)
-        }
+        levelTraverse(node.left, level + 1)
+        levelTraverse(node.right, level + 1)
     }
     func largestValues(_ root: TreeNode?) -> [Int] {
-        if let node = root {
-            levelTraverse(node, 0)
-        }
+        levelTraverse(root, 0)
         return array
     }
 }
