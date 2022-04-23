@@ -1,11 +1,11 @@
 class Solution {
     func findSmallestSetOfVertices(_ n: Int, _ edges: [[Int]]) -> [Int] {
-        var reached = [Bool](repeating: false, count: n)
+        var reached = Set<Int>()
         for edge in edges {
-            reached[edge[1]] = true
+            reached.insert(edge[1])
         }
-        return reached.enumerated().filter {
-            !$0.element
-        }.map(\.offset)
+        return (0..<n).filter {
+            !reached.contains($0)
+        }
     }
 }
