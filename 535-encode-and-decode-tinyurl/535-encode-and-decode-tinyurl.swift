@@ -1,8 +1,18 @@
 class Codec {
+    
+    /*
+    1. 随机生成短链接
+    2. 短链接是否已建立映射
+        2.1 已建立：重新生成短链接
+        2.2 未建立：建立映射
+    3. 通过映射获取长链接
+    
+    */
+    
+    /// 已生成的短链接集合
+    private var shortUrlSet = Set<String>()
     /// 短链接对长链接映射
-    private var s2lMapper = [String: String]()
-    /// 长链接对短链接映射
-    private var l2sMapper = [String: String]()
+    private var mapper = [String: String]()
     
     /// 生成指定长度的随机 url path
     private func generateShortPath(length: Int) -> String {
@@ -21,19 +31,14 @@ class Codec {
         
         if let cmps = URLComponents(string: longUrl) {
             var cmps = cmps
-            
-            cmps.path = generateShortPath(length: 4)
-            var shortUrl = cmps.string!
-            // 如果已经存在映射，则重新生成短链接
-            while let _ = s2lMapper[shortUrl] {
-                cmps.path = generateShortPath(length: 4)
-                shortUrl = cmps.string!
+            var path = generateShortPath(length: 4)
+            while shortUrlSet.contains(path) {
+                path = generateShortPath(length: 4)
             }
-            // 建立短链接对长链接的映射，用以判断生成的短链接是否已与另一个长链接映射
-            s2lMapper[shortUrl] = longUrl
-            
-            // 建立长链接对短链接的映射，用以获取“解码”结果
-            l2sMapper[longUrl] = shortUrl
+            shortUrlSet.insert(path)
+            cmps.path = path
+            let shortUrl = cmps.string!
+            mapper[shortUrl] = longUrl
             return shortUrl
         }
         return longUrl
@@ -41,7 +46,7 @@ class Codec {
     
     // Decodes a shortened URL to its original URL.
     func decode(_ shortUrl: String) -> String {
-        s2lMapper[shortUrl] ?? shortUrl
+        mapper[shortUrl] ?? shortUrl
     }
 }
 
