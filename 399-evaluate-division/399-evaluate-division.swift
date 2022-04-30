@@ -25,6 +25,7 @@ class Solution {
             let val = dfs([next, to], pre: pre * valueMap[from + "," + next]!)
             if val != -1.0 {
                 res = val
+                break
             }
         }
         // 回溯移除已访问节点
