@@ -11,6 +11,7 @@ class MyStack {
         queue.append(x)
         let n = queue.count
         var i = 0
+        // 留下最后一个，之前的逐个拼接到后面
         while i < n - 1 {
             queue.append(queue.removeFirst())
             i += 1
