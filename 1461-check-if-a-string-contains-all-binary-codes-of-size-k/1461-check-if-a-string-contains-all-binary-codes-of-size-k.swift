@@ -4,15 +4,10 @@ class Solution {
         guard n >= k else { return false }
         let chars = [Character](s)
         var codeSet = Set<String>()
-        var subChars = chars[..<k]
-        codeSet.insert(String(subChars))
-        // 大小为 k 的滑动窗口
-        for c in chars[k...] {
-            subChars.removeFirst()
-            subChars.append(c)
-            codeSet.insert(String(subChars))
+        for i in 0...n - k {
+            let start = i, end = i + k
+            codeSet.insert(String(chars[start..<end]))
         }
-        // 所有情况的数量需等于 2^k
         return codeSet.count == (1 << k)
     }
 }
