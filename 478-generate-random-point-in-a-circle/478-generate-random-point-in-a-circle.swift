@@ -11,12 +11,12 @@ class Solution {
     }
     
     func randPoint() -> [Double] {
-        while true {
-            let x_random = Double.random(in: -radius...radius)
-            let y_random = Double.random(in: -radius...radius)
-            if x_random * x_random + y_random * y_random <= radius * radius {
-                return [x_center + x_random, y_center + y_random]
-            }
+        let x_random = Double.random(in: -radius...radius)
+        let y_random = Double.random(in: -radius...radius)
+        if x_random * x_random + y_random * y_random <= radius * radius {
+            return [x_center + x_random, y_center + y_random]
+        } else {
+            return randPoint()
         }
     }
 }
