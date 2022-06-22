@@ -1,26 +1,41 @@
-class Solution {
-    var heap: [Int] = []
-    var k: Int = 0
+class MaxHeap<Element: Comparable> {
     
-    private func insert(_ num: Int) {
-        guard heap.count < k || num > heap[k - 1] else { return }
-        var left = 0, right = min(heap.count, k) - 1
+    private var array = [Element]()
+    private var capacity: Int
+    
+    init(_ capacity: Int) {
+        self.capacity = capacity
+    }
+    
+    func insert(_ element: Element) {
+        guard array.count < capacity || element > array[capacity - 1] else { return }
+        var left = 0, right = min(array.count, capacity) - 1
         while left <= right {
             let mid = left + (right - left) >> 1
-            if heap[mid] > num {
+            if array[mid] > element {
                 left = mid + 1
             } else {
                 right = mid - 1
             }
         }
-        heap.insert(num, at: left)
+        array.insert(element, at: left)
+        if array.count > capacity {
+            array.removeLast()
+        }
     }
     
+    func top() -> Element? {
+        array.last
+    }
+    
+}
+
+class Solution {
     func findKthLargest(_ nums: [Int], _ k: Int) -> Int {
-        self.k = k
+        let heap = MaxHeap<Int>(k)
         for num in nums {
-            insert(num)
+            heap.insert(num)
         }
-        return heap[k - 1]
+        return heap.top() ?? 0
     }
 }
