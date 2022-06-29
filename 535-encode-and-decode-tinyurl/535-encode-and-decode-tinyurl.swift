@@ -9,8 +9,6 @@ class Codec {
     
     */
     
-    /// 已生成的短链接集合
-    private var shortUrlSet = Set<String>()
     /// 短链接对长链接映射
     private var mapper = [String: String]()
     
@@ -28,16 +26,13 @@ class Codec {
     
     // Encodes a URL to a shortened URL.
     func encode(_ longUrl: String) -> String {
-        
         if let cmps = URLComponents(string: longUrl) {
             var cmps = cmps
-            var path = generateShortPath(length: 4)
-            while shortUrlSet.contains(path) {
-                path = generateShortPath(length: 4)
+            var shortUrl = cmps.string!
+            while let _ = mapper[shortUrl] {
+                cmps.path = generateShortPath(length: 4)
+                shortUrl = cmps.string!
             }
-            shortUrlSet.insert(path)
-            cmps.path = path
-            let shortUrl = cmps.string!
             mapper[shortUrl] = longUrl
             return shortUrl
         }
