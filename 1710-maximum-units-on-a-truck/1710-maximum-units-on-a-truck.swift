@@ -13,10 +13,7 @@ class Solution {
         }
         // 根据盒子可装单位数排序
         let sorted = boxTypes.sorted { pre, nxt in
-            if pre[1] == nxt[1] {
-                return pre[0] >= nxt[0]
-            }
-            return pre[1] > nxt[1]
+           pre[1] > nxt[1]
         }
         var result = 0, size = truckSize
         // 遍历超过卡车承载量后退出
