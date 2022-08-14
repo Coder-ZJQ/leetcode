@@ -1,5 +1,5 @@
 class Solution {
     func maximumXOR(_ nums: [Int]) -> Int {
-        nums.reduce(nums[0], |)
+        nums.reduce(0, |)
     }
 }
