@@ -15,22 +15,29 @@
  */
 class Solution {
     func deepestLeavesSum(_ root: TreeNode?) -> Int {
-        guard let node = root else { return 0 }
-        var array = [node], res = 0
+        guard let node = root else {
+            return 0
+        }
+        var array = [node]
         while !array.isEmpty {
-            var sum = 0, nextLevel = [TreeNode]()
+            var newArray = [TreeNode]()
             for node in array {
-                sum += node.val
-                if let left = node.left {
-                    nextLevel.append(left)
-                }
                 if let right = node.right {
-                    nextLevel.append(right)
+                    newArray.append(right)
+                }
+                if let left = node.left {
+                    newArray.append(left)
+                    
                 }
             }
-            res = sum
-            array = nextLevel
+            if !newArray.isEmpty {
+                array = newArray
+            } else {
+                break
+            }
         }
-        return res
+        return array.reduce(0, { partialResult, next in
+            partialResult + next.val
+        })
     }
 }
