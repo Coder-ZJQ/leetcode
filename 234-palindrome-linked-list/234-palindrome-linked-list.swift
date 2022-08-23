@@ -10,12 +10,20 @@
  */
 class Solution {
     func isPalindrome(_ head: ListNode?) -> Bool {
-        var str: String = "."
+        var array = [Int]()
         var node = head
         while let n = node {
-            str += "\(n.val)."
+            array.append(n.val)
             node = n.next
         }
-        return str == String(str.reversed())
+        var l = 0, r = array.count - 1
+        while l < r {
+            if array[l] != array[r] {
+                return false
+            }
+            l += 1
+            r -= 1
+        }
+        return true
     }
 }
