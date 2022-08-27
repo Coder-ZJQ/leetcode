@@ -15,25 +15,29 @@
  */
 class Solution {
     func widthOfBinaryTree(_ root: TreeNode?) -> Int {
-        guard let node = root else { return 0 }
+        guard let node = root else {
+            return 0
+        }
         node.val = 0
-        var array = [node]
         var width = 1
+        var array = [node]
         while !array.isEmpty {
+            var newArray = [TreeNode]()
             let start = array.first!.val
             width = max(width, array.last!.val - start + 1)
-            for _ in 0..<array.count {
-                let node = array.removeFirst()
+            for node in array {
                 if let left = node.left {
-                    left.val = node.val * 2 - start
-                    array.append(left)
+                    left.val = node.val * 2 - start         // 防止越界，减去起始值
+                    newArray.append(left)
                 }
                 if let right = node.right {
-                    right.val = node.val * 2 + 1 - start
-                    array.append(right)
+                    right.val = node.val * 2 + 1 - start    // 防止越界，减去起始值
+                    newArray.append(right)
                 }
             }
+            array = newArray
         }
+        
         return width
     }
 }
