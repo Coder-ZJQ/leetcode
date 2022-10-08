@@ -1,16 +1,18 @@
 class Solution {
     func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
-        let sorted = nums.sorted(), n = sorted.count
-        var res = nums[0] + nums[1] + nums[2]
-        for i in 0..<(n - 2) {
-            let numi = sorted[i]
-            var left = i + 1, right = n - 1
-            while left < right {
-                let sum = numi + sorted[left] + sorted[right]
+        let sortedNums = nums.sorted(), n = sortedNums.count
+        var res = sortedNums[0] + sortedNums[1] + sortedNums[2]
+        for i in 0..<n - 2 {
+            let num = sortedNums[i]
+            var l = i + 1, r = n - 1
+            while l < r {
+                let sum = num + sortedNums[l] + sortedNums[r]
                 if sum > target {
-                    right -= 1
+                    r -= 1
+                } else if sum < target {
+                    l += 1
                 } else {
-                    left += 1
+                    return target
                 }
                 if abs(res - target) > abs(sum - target) {
                     res = sum
