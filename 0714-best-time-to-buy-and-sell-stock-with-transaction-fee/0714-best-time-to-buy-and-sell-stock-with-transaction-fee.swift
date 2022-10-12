@@ -5,7 +5,6 @@ class Solution {
         // 收益
         var profit = 0
         for price in prices[1...] {
-            print(cost)
             let cur = price + fee
             if cur < cost {
                 // 当前花费少则换成此时买入
