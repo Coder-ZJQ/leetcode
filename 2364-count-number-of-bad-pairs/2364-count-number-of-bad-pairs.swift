@@ -7,12 +7,8 @@ class Solution {
         var res = n * (n - 1) / 2
         for (i, num) in nums.enumerated() {
             let temp = i - num
-            if let count = map[temp] {
-                res -= count
-                map[temp] = count + 1
-            } else {
-                map[temp] = 1
-            }
+            res -= map[temp, default: 0]
+            map[temp] = map[temp, default: 0] + 1
         }
         return res
     }
