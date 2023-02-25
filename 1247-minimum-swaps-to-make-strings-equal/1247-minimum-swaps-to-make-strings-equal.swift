@@ -17,6 +17,6 @@ class Solution {
             }
         }
         guard stack.count % 2 == 0 else { return -1 }
-        return res + ((stack.count % 4 == 0) ? stack.count / 2 : stack.count / 4 * 2 + 2)
+        return res + (stack.count + 2) / 4 * 2
     }
 }
