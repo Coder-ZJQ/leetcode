@@ -1,12 +1,13 @@
 class Solution {
     func partitionString(_ s: String) -> Int {
-        var res = 1, set = Set<Character>()
+        var res = 1, bools = [Bool](repeating: false, count: 26)
         for char in s {
-            if set.contains(char) {
-                set.removeAll()
+            let index = Int(char.asciiValue!) - 97
+            if bools[index] {
+                bools = [Bool](repeating: false, count: 26)
                 res += 1
             }
-            set.insert(char)
+            bools[index] = true
         }
         return res
     }
