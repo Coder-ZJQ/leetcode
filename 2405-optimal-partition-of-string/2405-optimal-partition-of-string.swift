@@ -3,7 +3,7 @@ class Solution {
         var res = 1, set = Set<Character>()
         for char in s {
             if set.contains(char) {
-                set = Set<Character>()
+                set.removeAll()
                 res += 1
             }
             set.insert(char)
