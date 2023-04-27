@@ -1,11 +1,6 @@
-
 extension String {
     func isPredecessor(of string: String) -> Bool {
         let n = self.count
-        guard n + 1 == string.count else {
-            return false
-        }
-        
         let charsPre = [Character](self),
             charsCur = [Character](string)
         var i = 0
@@ -21,31 +16,32 @@ extension String {
     }
 }
 
-extension Array where Element == String {
-    func longestStrChain() -> Int {
-        let sortedWords = self.sorted {
-            $0.count < $1.count
-        }
-        let n = sortedWords.count
-        // 第 i 个 word 的最长链长度
-        var dp = [Int](repeating: 1, count: n)
-        for i in 0..<n {
-            let wordCur = sortedWords[i]
-            var j = i - 1
-            // 倒序只遍历长度相差小于等于 1 的单词
-            while j >= 0 && wordCur.count - sortedWords[j].count <= 1{
-                if sortedWords[j].isPredecessor(of: wordCur) {
-                    dp[i] = Swift.max(dp[i], dp[j] + 1)
-                }
-                j -= 1
-            }
-        }
-        return dp.max() ?? 0
-    }
-}
-
 class Solution {
     func longestStrChain(_ words: [String]) -> Int {
-        words.longestStrChain()
+        var countMap = [Int: [String]]()
+        for word in words {
+            if let _ = countMap[word.count] {
+                countMap[word.count]!.append(word)
+            } else {
+                countMap[word.count] = [word]
+            }
+        }
+        var dp = [String: Int]()
+        var res = 1
+        for i in countMap.keys.sorted() {
+            if let preWords = countMap[i - 1] {
+                let curWords = countMap[i]!
+                for curWord in curWords {
+                    for preWord in preWords {
+                        if preWord.isPredecessor(of: curWord) {
+                            let count = max(dp[curWord, default: 1], dp[preWord, default: 1] + 1)
+                            dp[curWord] = count
+                            res = max(res, count)
+                        }
+                    }
+                }
+            }
+        }
+        return res
     }
 }
