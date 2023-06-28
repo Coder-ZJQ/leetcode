@@ -13,6 +13,9 @@ class Solution {
         
         while !queue.isEmpty {
             let pair = queue.popLast()!, from = pair.0, prob = pair.1
+            guard prob >= probs[from] else {
+                continue
+            }
             for (to, toProb) in graph[from] {
                 let nextProb = prob * toProb
                 if probs[to] < nextProb {
